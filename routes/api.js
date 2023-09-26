@@ -1,7 +1,7 @@
 var express = require("express");
 var router = express.Router();
 
-const knex = require("knex")(require("../knexfile").development);
+const knex = require("knex")(require("../knexfile").production);
 const { checkToken, isAdmin } = require("./apiSegRouter.js");
 
 router.get("/produtos", checkToken, function (_, res) {
@@ -53,6 +53,11 @@ router.post("/produtos", checkToken, isAdmin, function (req, res, next) {
 			res.status(201).json({
 				message: `Produto inserido com sucesso`,
 				data: { id: newId },
+			});
+		})
+		.catch((err) => {
+			res.status(500).json({
+				message: `Erro ao adicionar produto: ${err.message}`,
 			});
 		});
 });
