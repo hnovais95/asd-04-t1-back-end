@@ -1,7 +1,9 @@
 var express = require("express");
 var router = express.Router();
 
-const knex = require("knex")(require("../knexfile").production);
+const knex = require("knex")(
+	require("../knexfile.js")[process.env.NODE_ENV || "development"]
+);
 const { checkToken, isAdmin } = require("./apiSegRouter.js");
 
 router.get("/produtos", checkToken, function (_, res) {
